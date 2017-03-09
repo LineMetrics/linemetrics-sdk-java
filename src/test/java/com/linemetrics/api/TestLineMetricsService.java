@@ -351,15 +351,40 @@ public class TestLineMetricsService {
             if(entry.getObjectId().equalsIgnoreCase("2c7c94eb76df497d90e33cdf9f97c5f4")){
                 System.out.println(entry.toString());
                 Base b = entry.loadLastValue();
-                DoubleAverage a = new DoubleAverage();
-                a.setMaximum(new java.lang.Double(100));
-                a.setMinimum(new java.lang.Double(10));
-                a.setValue(new java.lang.Double(55));
+                DoubleAverage a = new DoubleAverage(new java.lang.Double(55),new java.lang.Double(10), new java.lang.Double(100), new Date());
                 DataWriteResponse response = entry.saveData(a);
                 Assert.assertNotNull(response);
                 System.out.println("response: "+response);
                 Assert.assertTrue(ResponseType.equals(response.getResponseType(), ResponseType.SUCCESS));
             }
+        }
+    }
+
+    @Test
+    public void testUpdateData() throws ServiceException {
+        final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
+        Assert.assertNotNull(service);
+        System.out.println("Bearer "+service.getAuthenticationToken().getAccessToken());
+
+        ObjectBase base = service.loadObject("03704a3078e54dc0837a9d56f5d45ca0");
+        Assert.assertNotNull(base);
+        Assert.assertTrue(base instanceof DataStream);
+
+        Calendar from = Calendar.getInstance();
+        Calendar to = Calendar.getInstance();
+
+        from.set(Calendar.HOUR_OF_DAY, 13);
+        from.set(Calendar.MINUTE, 0);
+
+        to.set(Calendar.HOUR_OF_DAY, 17);
+        to.set(Calendar.MINUTE, 59);
+
+  //      DataWriteResponse resp = ((DataStream)base).saveData(new DoubleAverage(new java.lang.Double(85), new java.lang.Double(0), new java.lang.Double(100), new Date()));
+  //      Assert.assertNotNull(resp);
+
+        List<DataReadResponse> res = ((DataStream)base).loadData(from.getTime(), to.getTime(), "Europe/Vienna", "PT1M", FunctionType.RAW);
+        for(DataReadResponse entry : res){
+            System.out.println(((RawDataReadResponse)entry).toString());
         }
     }
 }

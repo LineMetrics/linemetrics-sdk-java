@@ -2,6 +2,8 @@ package com.linemetrics.api.datatypes;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 /**
  * Created by User on 03.03.2017.
  */
@@ -15,6 +17,16 @@ public class GeoCoord extends Base {
 
     @SerializedName("precision")
     private Integer precision;
+
+    public GeoCoord(){}
+    public GeoCoord(java.lang.Double latitude, java.lang.Double longitude, Integer precision,
+                    Date date){
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.precision = precision;
+        setTimestamp(date);
+    }
+
 
     public java.lang.Double getLatitude() {
         return latitude;

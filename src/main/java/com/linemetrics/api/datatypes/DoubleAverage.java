@@ -2,6 +2,8 @@ package com.linemetrics.api.datatypes;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 /**
  * Created by User on 03.03.2017.
  */
@@ -15,6 +17,19 @@ public class DoubleAverage extends Base {
 
     @SerializedName("max")
     private java.lang.Double maximum;
+
+    public DoubleAverage(){}
+
+    public DoubleAverage(java.lang.Double value,
+            java.lang.Double minimum,
+            java.lang.Double maximum,
+            Date date){
+        this.value = value;
+        this.minimum = minimum;
+        this.maximum = maximum;
+        this.setTimestamp(date);
+    }
+
 
     public java.lang.Double getValue() {
         return value;

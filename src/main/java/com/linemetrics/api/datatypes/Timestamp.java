@@ -10,7 +10,14 @@ import java.util.Date;
 public class Timestamp extends Base {
 
     @SerializedName("val")
-    private Long value;
+    private long value;
+
+    public Timestamp(){}
+    public Timestamp(Date date,
+                     Date timestamp){
+        value = date!=null?date.getTime():0;
+        setTimestamp(timestamp);
+    }
 
     public Date getValue(){
         return new Date(this.value);

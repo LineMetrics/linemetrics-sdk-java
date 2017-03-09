@@ -13,7 +13,7 @@ import java.util.Date;
 public abstract class Base {
 
     @SerializedName(value = "ts")
-    private Long unixTicks;
+    private long unixTicks;
 
     public Date getTimestamp(){
         return new Date(unixTicks);
