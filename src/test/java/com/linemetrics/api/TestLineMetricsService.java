@@ -366,14 +366,15 @@ public class TestLineMetricsService {
         Calendar from = Calendar.getInstance();
         Calendar to = Calendar.getInstance();
 
+        from.add(Calendar.DATE, -1);
         from.set(Calendar.HOUR_OF_DAY, 0);
         from.set(Calendar.MINUTE, 0);
 
         to.set(Calendar.HOUR_OF_DAY, 17);
         to.set(Calendar.MINUTE, 59);
 
-  //      DataWriteResponse resp = ((DataStream)base).saveData(new DoubleAverage(new java.lang.Double(85), new java.lang.Double(0), new java.lang.Double(100), new Date()));
-  //      Assert.assertNotNull(resp);
+       // DataWriteResponse resp = ((DataStream)base).saveData(new DoubleAverage(new java.lang.Double(85), new java.lang.Double(0), new java.lang.Double(100), new Date()));
+       // Assert.assertNotNull(resp);
 
         List<DataReadResponse> res = ((DataStream)base).loadData(from.getTime(), to.getTime(), "Europe/Vienna", "PT1M", FunctionType.RAW);
         for(DataReadResponse entry : res){
