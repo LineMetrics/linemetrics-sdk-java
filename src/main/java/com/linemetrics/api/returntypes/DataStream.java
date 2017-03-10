@@ -2,7 +2,6 @@ package com.linemetrics.api.returntypes;
 
 import com.google.gson.annotations.SerializedName;
 import com.linemetrics.api.datatypes.Base;
-import com.linemetrics.api.exceptions.AuthorizationException;
 import com.linemetrics.api.exceptions.ServiceException;
 import com.linemetrics.api.requesttypes.*;
 import com.linemetrics.api.types.FunctionType;

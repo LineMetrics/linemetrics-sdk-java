@@ -1,6 +1,5 @@
 package com.linemetrics.api.requesttypes;
 
-import com.linemetrics.api.datatypes.Base;
 import com.linemetrics.api.exceptions.ServiceException;
 import com.linemetrics.api.types.FunctionType;
 

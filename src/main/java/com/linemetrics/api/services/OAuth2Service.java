@@ -1,8 +1,8 @@
 package com.linemetrics.api.services;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.linemetrics.api.LineMetricsService;
-import com.linemetrics.api.exceptions.AuthorizationException;
-import com.linemetrics.api.exceptions.RestException;
 import com.linemetrics.api.exceptions.ServiceException;
 import com.linemetrics.api.returntypes.OAuth2Token;
 import org.apache.commons.lang3.StringUtils;
@@ -10,9 +10,9 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,18 +21,30 @@ import java.util.List;
  */
 public class OAuth2Service extends BaseService {
 
+    private static final Logger logger = LoggerFactory.getLogger(OAuth2Service.class);
+
     public OAuth2Service(LineMetricsService serviceInstance){
         super(serviceInstance);
     }
 
+    /**
+     *
+     * @param clientId
+     * @param clientSecret
+     * @return
+     * @throws ServiceException
+     */
     public OAuth2Token authenticate(String clientId, String clientSecret) throws ServiceException {
+
+        logger.debug(String.format("Call authenticate with clientId: %s, clientSecret: %s", clientId, clientSecret));
+
         try {
             //validate
             if (StringUtils.isEmpty(clientId)){
-                throw new ServiceException("clientId must not be null or empty!");
+                throw new IllegalArgumentException("clientId must not be null or empty!");
             }
             if (StringUtils.isEmpty(clientSecret)) {
-                throw new ServiceException("clientSecret must not be null or empty!");
+                throw new IllegalArgumentException("clientSecret must not be null or empty!");
             }
 
             //build the request
@@ -44,8 +56,8 @@ public class OAuth2Service extends BaseService {
             params.add(new BasicNameValuePair("grant_type", "client_credentials"));
 
             //return
-            JSONObject result = (JSONObject)this.restClient.post(ub.build(), false, new UrlEncodedFormEntity(params, "UTF-8"));
-            return toObject(result, OAuth2Token.class);
+            JsonElement result = this.restClient.post(ub.build(), false, new UrlEncodedFormEntity(params, "UTF-8"));
+            return toObject((JsonObject)result, OAuth2Token.class);
 
         } catch(Exception e){
             this.handleException(e);
@@ -53,19 +65,31 @@ public class OAuth2Service extends BaseService {
         return null;
     }
 
+    /**
+     *
+     * @param clientId
+     * @param clientSecret
+     * @param email
+     * @param password
+     * @return
+     * @throws ServiceException
+     */
     public OAuth2Token authenticate(String clientId, String clientSecret, String email, String password) throws ServiceException {
+
+        logger.debug(String.format("Call authenticate with clientId: %s, clientSecret: %s, email: %s, password: %s", clientId, clientSecret, email, password));
+
         try {
             if (StringUtils.isEmpty(clientId)){
-                throw new ServiceException("clientId must not be null or empty!");
+                throw new IllegalArgumentException("clientId must not be null or empty!");
             }
             if (StringUtils.isEmpty(clientSecret)) {
-                throw new ServiceException("clientSecret must not be null or empty!");
+                throw new IllegalArgumentException("clientSecret must not be null or empty!");
             }
             if (StringUtils.isEmpty(email)){
-                throw new ServiceException("email must not be null or empty!");
+                throw new IllegalArgumentException("email must not be null or empty!");
             }
             if (StringUtils.isEmpty(password)) {
-                throw new ServiceException("password must not be null or empty!");
+                throw new IllegalArgumentException("password must not be null or empty!");
             }
 
             //build the request
@@ -79,9 +103,8 @@ public class OAuth2Service extends BaseService {
             params.add(new BasicNameValuePair("grant_type", "client_credentials"));
 
             //return
-            JSONObject result = (JSONObject)this.restClient.post(ub.build(), false, new UrlEncodedFormEntity(params, "UTF-8"));
-            System.out.println(result.toString());
-            return toObject(result, OAuth2Token.class);
+            JsonElement result = this.restClient.post(ub.build(), false, new UrlEncodedFormEntity(params, "UTF-8"));
+            return toObject((JsonObject)result, OAuth2Token.class);
 
         } catch(Exception e){
             this.handleException(e);

@@ -2,6 +2,7 @@ package com.linemetrics.api.requesttypes;
 
 import com.linemetrics.api.exceptions.ServiceException;
 import com.linemetrics.api.helper.URIHelper;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;

@@ -2,7 +2,6 @@ package com.linemetrics.api.datatypes;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.lang.*;
 import java.lang.String;
 import java.text.SimpleDateFormat;
 import java.util.Date;

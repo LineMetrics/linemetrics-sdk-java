@@ -1,17 +1,17 @@
 package com.linemetrics.api;
 
-import com.linemetrics.api.datatypes.Base;
 import com.linemetrics.api.exceptions.AuthorizationException;
 import com.linemetrics.api.exceptions.ServiceException;
-import com.linemetrics.api.requesttypes.*;
-import com.linemetrics.api.returntypes.*;
+import com.linemetrics.api.returntypes.Asset;
+import com.linemetrics.api.returntypes.OAuth2Token;
+import com.linemetrics.api.returntypes.ObjectBase;
+import com.linemetrics.api.returntypes.Template;
 import com.linemetrics.api.services.DataService;
 import com.linemetrics.api.services.ObjectService;
 import com.linemetrics.api.services.TemplateService;
 import com.linemetrics.api.types.ResourceType;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by User on 03.03.2017.

@@ -1,11 +1,10 @@
 package com.linemetrics.api.returntypes;
 
 import com.google.gson.annotations.SerializedName;
-import com.linemetrics.api.exceptions.AuthorizationException;
 import com.linemetrics.api.exceptions.ServiceException;
-import com.linemetrics.api.types.ResourceType;
 import com.linemetrics.api.requesttypes.UpdateData;
 import com.linemetrics.api.requesttypes.UpdateObjectRequest;
+import com.linemetrics.api.types.ResourceType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;

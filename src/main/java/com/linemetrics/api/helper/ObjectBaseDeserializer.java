@@ -5,8 +5,6 @@ import com.linemetrics.api.returntypes.ObjectBase;
 import com.linemetrics.api.types.ResourceType;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Klemens on 08.03.2017.

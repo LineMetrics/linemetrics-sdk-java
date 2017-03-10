@@ -2,9 +2,6 @@ package com.linemetrics.api.returntypes;
 
 import com.google.gson.annotations.SerializedName;
 import org.apache.http.HttpRequest;
-import org.json.simple.JSONObject;
-
-import java.net.URI;
 
 /**
  * Created by Klemens on 03.03.2017.

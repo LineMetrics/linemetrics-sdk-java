@@ -3,12 +3,10 @@ package com.linemetrics.api.returntypes;
 import com.google.gson.annotations.SerializedName;
 import com.linemetrics.api.ILMService;
 import com.linemetrics.api.datatypes.Base;
-import com.linemetrics.api.exceptions.AuthorizationException;
 import com.linemetrics.api.exceptions.ServiceException;
 import com.linemetrics.api.requesttypes.CreateAssetRequest;
 import com.linemetrics.api.requesttypes.TemplateRequiredFieldsRequest;
 
-import javax.sql.rowset.serial.SerialException;
 import java.util.List;
 import java.util.Map;
 

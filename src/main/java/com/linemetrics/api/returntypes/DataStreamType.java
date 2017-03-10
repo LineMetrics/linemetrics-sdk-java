@@ -1,7 +1,5 @@
 package com.linemetrics.api.returntypes;
 
-import com.linemetrics.api.datatypes.Base;
-
 /**
  * Created by Klemens on 07.03.2017.
  */

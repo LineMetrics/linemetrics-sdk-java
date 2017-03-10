@@ -2,8 +2,6 @@ package com.linemetrics.api.requesttypes;
 
 import com.linemetrics.api.exceptions.ServiceException;
 import com.linemetrics.api.helper.URIHelper;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.utils.URIBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;

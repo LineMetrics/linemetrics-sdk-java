@@ -1,10 +1,13 @@
 package com.linemetrics.api;
 
-import com.linemetrics.api.datatypes.Base;
-import com.linemetrics.api.exceptions.AuthorizationException;
 import com.linemetrics.api.exceptions.ServiceException;
-import com.linemetrics.api.requesttypes.*;
-import com.linemetrics.api.returntypes.*;
+import com.linemetrics.api.requesttypes.AssetRequest;
+import com.linemetrics.api.requesttypes.DeleteObjectRequest;
+import com.linemetrics.api.requesttypes.TemplateRequest;
+import com.linemetrics.api.returntypes.Asset;
+import com.linemetrics.api.returntypes.OAuth2Token;
+import com.linemetrics.api.returntypes.ObjectBase;
+import com.linemetrics.api.returntypes.Template;
 import com.linemetrics.api.services.DataService;
 import com.linemetrics.api.services.OAuth2Service;
 import com.linemetrics.api.services.ObjectService;
@@ -14,7 +17,6 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by User on 03.03.2017.

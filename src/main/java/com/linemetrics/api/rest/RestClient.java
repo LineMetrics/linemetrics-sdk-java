@@ -18,6 +18,9 @@
 
 package com.linemetrics.api.rest;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.linemetrics.api.exceptions.RestException;
 import com.linemetrics.api.returntypes.OAuth2Token;
 import org.apache.http.*;
@@ -26,19 +29,16 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.BasicHttpEntity;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Map;
 
 public class RestClient {
+
+    private static final Logger logger = LoggerFactory.getLogger(RestClient.class);
 
     private HttpClient httpClient = null;
     private URI uri = null;
@@ -54,8 +54,8 @@ public class RestClient {
         this.uri = uri;
     }
 
-    private Object request(HttpRequestBase req, Boolean attachAuthHeader) throws RestException {
-        System.out.println("Request: "+req.getURI().toString());
+    private JsonElement request(HttpRequestBase req, Boolean attachAuthHeader) throws RestException {
+        logger.debug(String.format("Call request with URL: %s", req.getURI().toString()));
         req.addHeader("Accept", "application/json");
 
         if (creds != null && attachAuthHeader) {
@@ -111,29 +111,31 @@ public class RestClient {
             req.releaseConnection();
         }
 
-        return JSONValue.parse(!result.toString().isEmpty() ? result.toString() : "{\"data\":[]}");
+        logger.debug(String.format("Finish request with result: %s", result.toString()));
+
+        return new Gson().fromJson((!result.toString().isEmpty() ? result.toString() : "{\"data\":[]}"), JsonElement.class);
     }
 
-    public Object get(URI uri) throws RestException {
+    public JsonElement get(URI uri) throws RestException {
         return get(uri, true);
     }
 
-    public Object get(URI uri, boolean attachAuthHeader) throws RestException {
+    public JsonElement get(URI uri, boolean attachAuthHeader) throws RestException {
         return request(new HttpGet(uri), attachAuthHeader);
     }
 
-    public Object post(URI uri, boolean attachAuthHeader, HttpEntity entity) throws RestException{
+    public JsonElement post(URI uri, boolean attachAuthHeader, HttpEntity entity) throws RestException{
         HttpPost post = new HttpPost(uri);
         post.setEntity(entity);
         return request(post, attachAuthHeader);
     }
 
-    public Object delete(URI uri, boolean attachAuthHeader) throws RestException{
+    public JsonElement delete(URI uri, boolean attachAuthHeader) throws RestException{
         HttpDelete delete = new HttpDelete(uri);
         return request(delete, attachAuthHeader);
     }
 
-    public Object post(URI uri, HttpEntity entity)throws RestException{
+    public JsonElement post(URI uri, HttpEntity entity)throws RestException{
         return post(uri, true, entity);
     }
 

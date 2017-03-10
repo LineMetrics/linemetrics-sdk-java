@@ -2,7 +2,6 @@ package com.linemetrics.api.requesttypes;
 
 import com.linemetrics.api.exceptions.ServiceException;
 import com.linemetrics.api.helper.URIHelper;
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.net.URI;
 

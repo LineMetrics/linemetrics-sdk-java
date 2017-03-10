@@ -8,41 +8,42 @@ import com.linemetrics.api.returntypes.*;
 import com.linemetrics.api.types.FunctionType;
 import com.linemetrics.api.types.ResourceType;
 import com.linemetrics.api.types.ResponseType;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.lang.String;
 import java.util.*;
+
+import static com.linemetrics.api.TestConstants.VALID_CLIENTID;
+import static com.linemetrics.api.TestConstants.VALID_OBJECT_ID;
+import static com.linemetrics.api.TestConstants.VALID_CLIENTSECRET;
+import static com.linemetrics.api.TestConstants.VALID_OBJECT_ALIAS;
+import static com.linemetrics.api.TestConstants.VALID_CUSTOMKEY;
+import static com.linemetrics.api.TestConstants.VALID_OBJECTID_DATASTREAM_TOUPDATE;
+
 
 /**
  * Created by Klemens on 06.03.2017.
  */
 public class TestLineMetricsService {
 
-    private final String VALID_CLIENTID = "api_57251703d60";
-    private final String VALID_CLIENTSECRET = "174c3423821f0982910c17b9f5c3faa1";
-
-    private final String VALID_OBJECT_ID = "fdf2a5a1337942dab854eaf0ee4dec01";
-    private final String VALID_OBJECT_ALIAS = "luftfeuchte";
-    private final String VALID_CUSTOMKEY = "gebaeude_a";
-
     @Test(expected = AuthorizationException.class)
-    public void testInstantiate_Invalid() throws ServiceException, AuthorizationException{
+    public void testInstantiate_Invalid() throws ServiceException {
         final ILMService service = new LineMetricsService("testClientId", "testClientSecret");
     }
 
     @Test(expected = ServiceException.class)
-    public void testInstantiate_Invalid_1() throws ServiceException, AuthorizationException{
+    public void testInstantiate_Invalid_1() throws ServiceException {
         final ILMService service = new LineMetricsService(null, "testClientSecret");
     }
 
     @Test(expected = ServiceException.class)
-    public void testInstantiate_Invalid_2() throws ServiceException, AuthorizationException{
+    public void testInstantiate_Invalid_2() throws ServiceException {
         final ILMService service = new LineMetricsService("testClientId", null);
     }
 
     @Test
-    public void testInstantiate() throws ServiceException, AuthorizationException{
+    public void testInstantiate() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
         Assert.assertNotNull(service.getAuthenticationToken());
@@ -53,7 +54,7 @@ public class TestLineMetricsService {
     }
 
     @Test
-    public void testLoadAssets() throws ServiceException, AuthorizationException {
+    public void testLoadAssets() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
         final List<Asset> assets = service.loadAssets();
@@ -68,7 +69,7 @@ public class TestLineMetricsService {
     }
 
     @Test
-    public void testLoadObjectById() throws ServiceException, AuthorizationException{
+    public void testLoadObjectById() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
         final ObjectBase base = service.loadObject(VALID_OBJECT_ID);
@@ -79,7 +80,7 @@ public class TestLineMetricsService {
     }
 
     @Test(expected = ServiceException.class)
-    public void testLoadObjectByIdAndAlias_Invalid() throws ServiceException, AuthorizationException {
+    public void testLoadObjectByIdAndAlias_Invalid() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
         final ObjectBase base = service.loadObject(VALID_OBJECT_ID, "WRONG");
@@ -88,7 +89,7 @@ public class TestLineMetricsService {
     }
 
     @Test
-    public void testLoadObjectByIdAndAlias() throws ServiceException, AuthorizationException {
+    public void testLoadObjectByIdAndAlias() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
         final ObjectBase base = service.loadObject(VALID_OBJECT_ID, VALID_OBJECT_ALIAS);
@@ -99,7 +100,7 @@ public class TestLineMetricsService {
     }
 
     @Test
-    public void testLoadObjectByCustomKey() throws ServiceException, AuthorizationException{
+    public void testLoadObjectByCustomKey() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
         final ObjectBase base = service.loadObjectByCustomKey(VALID_CUSTOMKEY);
@@ -108,7 +109,7 @@ public class TestLineMetricsService {
     }
 
     @Test(expected = ServiceException.class)
-    public void testLoadObjectByCustomKey_Invalid() throws ServiceException, AuthorizationException{
+    public void testLoadObjectByCustomKey_Invalid() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
         final ObjectBase base = service.loadObjectByCustomKey("asdf");
@@ -116,7 +117,7 @@ public class TestLineMetricsService {
     }
 
     @Test
-    public void testLoadAssetsByTypeAndId_Datastream() throws ServiceException, AuthorizationException {
+    public void testLoadAssetsByTypeAndId_Datastream() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
         final List<ObjectBase> result = service.loadAssets(ResourceType.DATASTREAM, VALID_OBJECT_ID);
@@ -130,7 +131,7 @@ public class TestLineMetricsService {
     }
 
     @Test
-    public void testLoadAssetsOfParentObject() throws ServiceException, AuthorizationException {
+    public void testLoadAssetsOfParentObject() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
         final ObjectBase base = service.loadObject(VALID_OBJECT_ID);
@@ -149,9 +150,8 @@ public class TestLineMetricsService {
     }
 
     @Test
-    public void testLoadPropertiesOfParentObject() throws ServiceException, AuthorizationException {
+    public void testLoadPropertiesOfParentObject() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
-        System.out.println("Bearer "+service.getAuthenticationToken().getAccessToken());
         Assert.assertNotNull(service);
         final ObjectBase base = service.loadObject(VALID_OBJECT_ID);
         Assert.assertNotNull(base);
@@ -169,7 +169,7 @@ public class TestLineMetricsService {
     }
 
     @Test
-    public void testLoadDatastreamOfParentObject() throws ServiceException, AuthorizationException {
+    public void testLoadDatastreamOfParentObject() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
         final ObjectBase base = service.loadObject(VALID_OBJECT_ID);
@@ -188,9 +188,8 @@ public class TestLineMetricsService {
     }
 
     @Test
-    public void testLoadDatastreamRaw() throws ServiceException, AuthorizationException {
+    public void testLoadDatastreamRaw() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
-        System.out.println("Bearer "+service.getAuthenticationToken().getAccessToken());
         Assert.assertNotNull(service);
         final ObjectBase base = service.loadObject(VALID_OBJECT_ID);
         Assert.assertNotNull(base);
@@ -233,9 +232,8 @@ public class TestLineMetricsService {
     }
 
     @Test
-    public void testLoadDatastreamAverage() throws ServiceException, AuthorizationException {
+    public void testLoadDatastreamAverage() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
-        System.out.println("Bearer "+service.getAuthenticationToken().getAccessToken());
         Assert.assertNotNull(service);
         final ObjectBase base = service.loadObject(VALID_OBJECT_ID);
         Assert.assertNotNull(base);
@@ -260,7 +258,7 @@ public class TestLineMetricsService {
     }
 
     @Test
-    public void testUpdateObjectById() throws ServiceException, AuthorizationException{
+    public void testUpdateObjectById() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
         final ObjectBase base = service.loadObject(VALID_OBJECT_ID);
@@ -285,7 +283,6 @@ public class TestLineMetricsService {
     public void testLoadTemplates() throws ServiceException{
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
-        System.out.println("Bearer "+service.getAuthenticationToken().getAccessToken());
         final List<Template> templates = service.loadTemplates();
         Assert.assertTrue(templates != null && templates.size() > 0);
         for(final Template entry : templates){
@@ -303,7 +300,6 @@ public class TestLineMetricsService {
     public void createObjectByTemplate() throws ServiceException{
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
-        System.out.println("Bearer "+service.getAuthenticationToken().getAccessToken());
         final List<Template> templates = service.loadTemplates();
         Assert.assertTrue(templates != null && templates.size() > 0);
         final Map<String, Base> map = new HashMap<>();
@@ -316,7 +312,6 @@ public class TestLineMetricsService {
     public void createObjectByTemplateAndDelete() throws ServiceException{
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
-        System.out.println("Bearer "+service.getAuthenticationToken().getAccessToken());
         final List<Template> templates = service.loadTemplates();
         Assert.assertTrue(templates != null && templates.size() > 0);
         final Map<String, Base> map = new HashMap<>();
@@ -335,7 +330,6 @@ public class TestLineMetricsService {
     public void testLoadDatastreamUpdateStream() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
-        System.out.println("Bearer "+service.getAuthenticationToken().getAccessToken());
         final ObjectBase base = service.loadObject(VALID_OBJECT_ID);
 
         Assert.assertNotNull(base);
@@ -348,7 +342,7 @@ public class TestLineMetricsService {
         Assert.assertTrue(children.size() > 0);
 
         for(DataStream entry : children){
-            if(entry.getObjectId().equalsIgnoreCase("2c7c94eb76df497d90e33cdf9f97c5f4")){
+            if(entry.getObjectId().equalsIgnoreCase(VALID_OBJECTID_DATASTREAM_TOUPDATE)){
                 System.out.println(entry.toString());
                 Base b = entry.loadLastValue();
                 DoubleAverage a = new DoubleAverage(new java.lang.Double(55),new java.lang.Double(10), new java.lang.Double(100), new Date());
@@ -364,16 +358,15 @@ public class TestLineMetricsService {
     public void testUpdateData() throws ServiceException {
         final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
         Assert.assertNotNull(service);
-        System.out.println("Bearer "+service.getAuthenticationToken().getAccessToken());
 
-        ObjectBase base = service.loadObject("03704a3078e54dc0837a9d56f5d45ca0");
+        ObjectBase base = service.loadObject(VALID_OBJECTID_DATASTREAM_TOUPDATE);
         Assert.assertNotNull(base);
         Assert.assertTrue(base instanceof DataStream);
 
         Calendar from = Calendar.getInstance();
         Calendar to = Calendar.getInstance();
 
-        from.set(Calendar.HOUR_OF_DAY, 13);
+        from.set(Calendar.HOUR_OF_DAY, 0);
         from.set(Calendar.MINUTE, 0);
 
         to.set(Calendar.HOUR_OF_DAY, 17);
