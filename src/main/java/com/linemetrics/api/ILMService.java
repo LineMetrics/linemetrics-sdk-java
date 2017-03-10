@@ -31,6 +31,7 @@ public interface ILMService {
 
     public void logout();
     public void checkToken() throws ServiceException;
+    public void refreshToken() throws ServiceException;
 
     public ObjectService getObjectService();
     public DataService getDataService();

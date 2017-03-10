@@ -163,6 +163,10 @@ public class LineMetricsService implements ILMService {
         return this.auth2Token;
     }
 
+    public void refreshToken() throws ServiceException {
+        this.authenticate(StringUtils.isNotEmpty(email) && StringUtils.isNotEmpty(password));
+    }
+
     private void authenticate(Boolean passwordGrant) throws ServiceException {
         if (passwordGrant) {
             this.auth2Token = authenticationService.authenticate(clientId, clientSecret, email, password);
