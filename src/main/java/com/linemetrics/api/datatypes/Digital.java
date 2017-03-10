@@ -2,6 +2,9 @@ package com.linemetrics.api.datatypes;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.lang.*;
+import java.lang.String;
+
 /**
  *
  * TODO not defined
@@ -10,13 +13,18 @@ import com.google.gson.annotations.SerializedName;
 public class Digital extends Base {
 
     @SerializedName("val")
-    private Integer value;
+    private Boolean value;
 
-    public Integer getValue() {
+    public Boolean getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Boolean value) {
         this.value = value;
+    }
+
+    @Override
+    public java.lang.String toString(){
+        return super.toString() + String.format(", Value: %s", value);
     }
 }

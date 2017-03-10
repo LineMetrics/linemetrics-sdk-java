@@ -170,6 +170,4 @@ public class LineMetricsService implements ILMService {
             this.auth2Token  = authenticationService.authenticate(clientId, clientSecret);
         }
     }
-
-
 }

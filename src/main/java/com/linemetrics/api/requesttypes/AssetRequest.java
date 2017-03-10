@@ -89,4 +89,10 @@ public class AssetRequest extends BaseRequest{
     public void setObjectType(String objectType) {
         this.objectType = objectType;
     }
+
+    @Override
+    public String toString(){
+        return String.format("CustomKey: %s, Alias: %s, ObjectType: %s, Limit: %s, Offset: %s",
+                this.getCustomKey(), this.getAlias(), this.getObjectType(), this.limit, this.offset);
+    }
 }

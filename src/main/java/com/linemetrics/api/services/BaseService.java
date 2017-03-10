@@ -11,14 +11,20 @@ import com.linemetrics.api.helper.ObjectBaseDeserializer;
 import com.linemetrics.api.rest.RestClient;
 import com.linemetrics.api.returntypes.ObjectBase;
 import com.linemetrics.api.returntypes.Template;
+import com.sun.org.apache.xerces.internal.util.ShadowedSymbolTable;
 import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.junit.Assert;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -114,13 +120,39 @@ public abstract class BaseService {
         return objectBase;
     }
 
-    public Object loadObjectFromDictionary(Map<String, Object> data, Class<?> type){
+    public Object loadObjectFromDictionary(Map<String, Object> data, Class<?> type) {
         Object result = null;
         try {
             result = type.newInstance();
-            for(Field field  : type.getDeclaredFields()){
+            List<Field> fields = new ArrayList<>();
+            fields.addAll(Arrays.asList(type.getDeclaredFields()));
+            //read fields of super class
+            if(type.getSuperclass() != null){
+                fields.addAll(Arrays.asList(type.getSuperclass().getDeclaredFields()));
+            }
+            for(Field field  : fields){
                 if (field.isAnnotationPresent(SerializedName.class)){
-                    System.out.println("Name: "+field.getName());
+                    SerializedName annotation = field.getAnnotation(SerializedName.class);
+                    String serializationValue = annotation!=null?annotation.value():null;
+                    if(StringUtils.isNotEmpty(serializationValue)){
+                        if(data.containsKey(serializationValue)){
+
+                            //find setter for field
+                            Method setter = type.getMethod(getSetterName(field.getName()), field.getType());
+                            if(setter != null && data.get(serializationValue) != null){
+
+                                //special handling for 'ts' field, Timestamp comes as String but should be set as Long
+                                if(StringUtils.isNotEmpty(serializationValue) && serializationValue.equalsIgnoreCase("ts")){
+                                    //set property ts
+                                    setter.invoke(result, Long.valueOf((String)data.get(serializationValue)));
+                                } else {
+                                    //set property
+                                    setter.invoke(result, data.get(serializationValue));
+                                }
+
+                            }
+                        }
+                    }
                 }
             }
 
@@ -129,6 +161,40 @@ public abstract class BaseService {
         }
         return result;
     }
+
+    private String getSetterName(String fieldName){
+        String result = null;
+        if(StringUtils.isNotEmpty(fieldName) && fieldName.length() > 0){
+            result = "set"+fieldName.replace(fieldName.substring(0,1), fieldName.substring(0,1).toUpperCase());
+        }
+        return result;
+    }
+
+    /*
+      // TODO check if type is assetbase?
+
+            var instance = Activator.CreateInstance(targetType);
+
+            foreach (var propInfo in targetType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                DataMemberAttribute attr = (DataMemberAttribute)propInfo.GetCustomAttributes(typeof(DataMemberAttribute), false).FirstOrDefault();
+
+                if (attr != null && data.ContainsKey(attr.Name))
+                {
+                    propInfo.SetValue(instance, data[attr.Name], null);
+                }
+            }
+
+            foreach (var fieldInfo in targetType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                DataMemberAttribute attr = (DataMemberAttribute)fieldInfo.GetCustomAttributes(typeof(DataMemberAttribute), false).FirstOrDefault();
+
+                if (attr != null && data.ContainsKey(attr.Name))
+                {
+                    fieldInfo.SetValue(instance, data[attr.Name]);
+                }
+            }
+     */
 
    protected void handleException(Exception e) throws ServiceException {
         if(e instanceof RestException){

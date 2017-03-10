@@ -22,6 +22,10 @@ public abstract class Base {
         this.unixTicks = timestamp.getTime();
     }
 
+    public void setUnixTicks(long unixTicks) {
+        this.unixTicks = unixTicks;
+    }
+
     public java.lang.String toString(){
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         return String.format("Timestamp: %s", sdf.format(getTimestamp()));

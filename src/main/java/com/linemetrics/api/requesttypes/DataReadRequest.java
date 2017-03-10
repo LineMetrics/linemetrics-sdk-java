@@ -5,6 +5,7 @@ import com.linemetrics.api.types.FunctionType;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,4 +67,10 @@ public class DataReadRequest extends BaseDataReadRequest {
         }
     }
 
+    @Override
+    public String toString(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        return String.format("From: %s, To: %s, Timezone: %s, Granularity: %s, CustomKey: %s, Alias: %s, ObjectId: %s"
+                , sdf.format(from), sdf.format(to), timeZone, granularity, getCustomKey(), getAlias(), getObjectId());
+    }
 }

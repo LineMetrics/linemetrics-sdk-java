@@ -20,10 +20,7 @@ public class DoubleAverage extends Base {
 
     public DoubleAverage(){}
 
-    public DoubleAverage(java.lang.Double value,
-            java.lang.Double minimum,
-            java.lang.Double maximum,
-            Date date){
+    public DoubleAverage(java.lang.Double value, java.lang.Double minimum, java.lang.Double maximum, Date date){
         this.value = value;
         this.minimum = minimum;
         this.maximum = maximum;

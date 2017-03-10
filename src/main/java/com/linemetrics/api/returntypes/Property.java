@@ -32,10 +32,8 @@ public class Property extends ObjectBase {
                 e.printStackTrace();
             }
         } else {
-            if(value == null){
-                //TODO Klemens, fragen wo "data" herkommen kann und was das ist
-                throw new NotImplementedException("loadObjectFromDictionary not implemented");
-                //this.value = (Base)getServiceInstance().getDataService().loadObjectFromDictionary(this.dataDictionary, getDataType().getOutput());
+            if(this.value == null){
+                this.value = (Base)getServiceInstance().getDataService().loadObjectFromDictionary(this.dataDictionary, getDataType().getOutput());
             }
         }
         return value;
@@ -87,7 +85,8 @@ public class Property extends ObjectBase {
 
     @Override
     public String toString(){
-        return super.toString() + String.format(", Alias: %s, Data: %s", getId(), getValue());
+        Base _value = getValue();
+        return super.toString() + String.format(", Alias: %s, Data: %s", getId(), _value!=null?_value.toString():null);
     }
 
     @Override

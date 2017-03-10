@@ -34,4 +34,9 @@ public class DataStreamConfigRequest extends BaseRequest {
     public URI appendUrl(URI url) throws ServiceException {
         throw new NotImplementedException("appendUrl not implemented");
     }
+
+    @Override
+    public String toString(){
+        return String.format("CustomKey: %s, Alias: %s, ObjectId: %s", getCustomKey(), getAlias(), getObjectId());
+    }
 }

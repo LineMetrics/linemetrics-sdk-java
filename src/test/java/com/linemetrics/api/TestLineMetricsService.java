@@ -14,12 +14,7 @@ import org.junit.Test;
 import java.lang.String;
 import java.util.*;
 
-import static com.linemetrics.api.TestConstants.VALID_CLIENTID;
-import static com.linemetrics.api.TestConstants.VALID_OBJECT_ID;
-import static com.linemetrics.api.TestConstants.VALID_CLIENTSECRET;
-import static com.linemetrics.api.TestConstants.VALID_OBJECT_ALIAS;
-import static com.linemetrics.api.TestConstants.VALID_CUSTOMKEY;
-import static com.linemetrics.api.TestConstants.VALID_OBJECTID_DATASTREAM_TOUPDATE;
+import static com.linemetrics.api.TestConstants.*;
 
 
 /**
@@ -62,9 +57,10 @@ public class TestLineMetricsService {
         Assert.assertTrue(assets.size() > 0);
         for(final Asset entry : assets){
             System.out.println(entry.toString());
-            Assert.assertNotNull(entry.getPayload());
-            Assert.assertNotNull(entry.getChildrenInfo());
-            Assert.assertTrue(entry.getChildrenInfo().size() > 0);
+            System.out.println("Childreninfo: "+entry.getChildrenInfo());
+          //  Assert.assertNotNull(entry.getPayload());
+          //  Assert.assertNotNull(entry.getChildrenInfo());
+          //  Assert.assertTrue(entry.getChildrenInfo().size() > 0);
         }
     }
 
@@ -366,7 +362,7 @@ public class TestLineMetricsService {
         Calendar from = Calendar.getInstance();
         Calendar to = Calendar.getInstance();
 
-        from.add(Calendar.DATE, -1);
+   //     from.add(Calendar.DATE, -1);
         from.set(Calendar.HOUR_OF_DAY, 0);
         from.set(Calendar.MINUTE, 0);
 
@@ -380,5 +376,38 @@ public class TestLineMetricsService {
         for(DataReadResponse entry : res){
             System.out.println(((RawDataReadResponse)entry).toString());
         }
+    }
+
+    @Test
+    public void testDatatypeDigital() throws ServiceException {
+        final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
+        ObjectBase base = service.loadObject(VALID_OBJECTID_DIGITAL, VALID_ALIAS_DIGITAL);
+        Assert.assertNotNull(base);
+        Assert.assertTrue(base instanceof Property);
+        System.out.println(((Property)base).toString());
+    }
+
+    @Test
+    public void testForMonk() throws ServiceException {
+        final ILMService service = new LineMetricsService(VALID_CLIENTID, VALID_CLIENTSECRET);
+        DataStream streamObject = (DataStream)service.loadObject(VALID_OBJECTID_DATASTREAM_TOREAD);
+        final List<DataReadResponse> items = streamObject.loadData(getFromDate(), getToDate(), "Europe/Vienna", "PT1M", FunctionType.RAW);
+        for(RawDataReadResponse item : (List<RawDataReadResponse>)(List<?>)items){
+            System.out.println(item.toString());
+        }
+    }
+
+    private Date getFromDate(){
+        Calendar from = Calendar.getInstance();
+        from.set(Calendar.HOUR_OF_DAY, 0);
+        from.set(Calendar.MINUTE, 0);
+        return from.getTime();
+    }
+
+    private Date getToDate(){
+        Calendar to = Calendar.getInstance();
+        to.set(Calendar.HOUR_OF_DAY, 17);
+        to.set(Calendar.MINUTE, 59);
+        return to.getTime();
     }
 }
