@@ -120,6 +120,12 @@ public abstract class BaseService {
         return objectBase;
     }
 
+    /**
+     *
+     * @param data
+     * @param type
+     * @return
+     */
     public Object loadObjectFromDictionary(Map<String, Object> data, Class<?> type) {
         Object result = null;
         try {
@@ -169,32 +175,6 @@ public abstract class BaseService {
         }
         return result;
     }
-
-    /*
-      // TODO check if type is assetbase?
-
-            var instance = Activator.CreateInstance(targetType);
-
-            foreach (var propInfo in targetType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                DataMemberAttribute attr = (DataMemberAttribute)propInfo.GetCustomAttributes(typeof(DataMemberAttribute), false).FirstOrDefault();
-
-                if (attr != null && data.ContainsKey(attr.Name))
-                {
-                    propInfo.SetValue(instance, data[attr.Name], null);
-                }
-            }
-
-            foreach (var fieldInfo in targetType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance))
-            {
-                DataMemberAttribute attr = (DataMemberAttribute)fieldInfo.GetCustomAttributes(typeof(DataMemberAttribute), false).FirstOrDefault();
-
-                if (attr != null && data.ContainsKey(attr.Name))
-                {
-                    fieldInfo.SetValue(instance, data[attr.Name]);
-                }
-            }
-     */
 
    protected void handleException(Exception e) throws ServiceException {
         if(e instanceof RestException){
