@@ -6,7 +6,7 @@
 
     <groupId>com.linemetrics.api</groupId>
     <artifactId>sdk</artifactId>
-    <version>1.0.0.0</version>
+    <version>1.0.0.1</version>
     <packaging>jar</packaging>
 
     <licenses>
@@ -72,6 +72,11 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations-java5</artifactId>
+            <version>RELEASE</version>
         </dependency>
     </dependencies>
 

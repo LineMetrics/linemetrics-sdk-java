@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 import com.linemetrics.api.datatypes.Base;
 import com.linemetrics.api.exceptions.ServiceException;
 import com.linemetrics.api.requesttypes.*;
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.Map;
 

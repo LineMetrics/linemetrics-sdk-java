@@ -1,6 +1,9 @@
 package com.linemetrics.api.services;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.linemetrics.api.ILMService;
 import com.linemetrics.api.LineMetricsService;
@@ -11,15 +14,12 @@ import com.linemetrics.api.helper.ObjectBaseDeserializer;
 import com.linemetrics.api.rest.RestClient;
 import com.linemetrics.api.returntypes.ObjectBase;
 import com.linemetrics.api.returntypes.Template;
-import com.sun.org.apache.xerces.internal.util.ShadowedSymbolTable;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.Assert;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URI;

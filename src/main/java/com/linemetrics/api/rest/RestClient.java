@@ -20,7 +20,6 @@ package com.linemetrics.api.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.linemetrics.api.exceptions.RestException;
 import com.linemetrics.api.returntypes.OAuth2Token;
 import org.apache.http.*;

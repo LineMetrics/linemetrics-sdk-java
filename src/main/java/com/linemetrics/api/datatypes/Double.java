@@ -16,7 +16,7 @@ public class Double extends Base {
 
     public Double(java.lang.Double value,
                   Date date){
-        value = value;
+        this.value = value;
         setTimestamp(date);
     }
 

@@ -67,7 +67,7 @@ public class LineMetricsService implements ILMService {
      * @param password
      * @throws ServiceException
      */
-    public LineMetricsService(String clientId, String clientSecret, String email, String password) throws ServiceException{
+    public LineMetricsService(String clientId, String clientSecret, String email, String password) throws ServiceException {
         this.initialize();
 
         if (StringUtils.isEmpty(clientId)){
@@ -163,6 +163,7 @@ public class LineMetricsService implements ILMService {
         return this.auth2Token;
     }
 
+    @Override
     public void refreshToken() throws ServiceException {
         this.authenticate(StringUtils.isNotEmpty(email) && StringUtils.isNotEmpty(password));
     }
