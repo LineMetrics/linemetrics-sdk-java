@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import com.linemetrics.api.ILMService;
 import com.linemetrics.api.LineMetricsService;
 import com.linemetrics.api.exceptions.AuthorizationException;
+import com.linemetrics.api.exceptions.NotFoundException;
 import com.linemetrics.api.exceptions.RestException;
 import com.linemetrics.api.exceptions.ServiceException;
 import com.linemetrics.api.helper.ObjectBaseDeserializer;
@@ -180,6 +181,8 @@ public abstract class BaseService {
         if(e instanceof RestException){
             if(((RestException) e).getHttpStatusCode() == 401){
                 throw new AuthorizationException((RestException) e);
+            } else if(((RestException) e).getHttpStatusCode() == 404){
+                throw new NotFoundException((RestException)e);
             } else {
                 throw new ServiceException(((RestException) e).getMessage());
             }
