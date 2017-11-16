@@ -53,6 +53,9 @@ public class DoubleAverage extends Base {
     }
 
     public java.lang.String toString(){
-        return super.toString() +  java.lang.String.format(", Value: %s, Min: %s, Max: %s", value.toString(), minimum.toString(), maximum.toString());
+        return super.toString() + java.lang.String.format(", Value: %s, Min: %s, Max: %s",
+                value!=null?value.toString():"",
+                minimum!=null?minimum.toString():"",
+                maximum!=null?maximum.toString():"");
     }
 }
